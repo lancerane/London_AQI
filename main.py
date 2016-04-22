@@ -8,7 +8,7 @@ from bokeh.io import output_file, show
 from bokeh.models import (
   GMapPlot, GMapOptions, ColumnDataSource, Circle, DataRange1d, PanTool, WheelZoomTool, BoxSelectTool)
 
-def project(x):
+def project():
 
     response = requests.get("http://api.erg.kcl.ac.uk/AirQuality/Hourly/MonitoringIndex/GroupName=London")
     root = ET.fromstring(response.content)
@@ -64,5 +64,5 @@ def project(x):
     show(plot)
 
 
-
-project(sys.argv[1])
+if __name__ == '__main__':
+    project()
