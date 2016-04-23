@@ -138,7 +138,8 @@ def index_page():
 
     plot.add_tools(PanTool(), WheelZoomTool(), BoxSelectTool())
 
-    # output_file('gmap_plot.html')
+    show(plot)
+    output_file('gmap_plot.html')
     save('gmap_plot.html')
     # path ='/Users/priyarane/Documents/data_inc/London_AQI/templates'
     # shutil.copy('gmap_plot.html',path)

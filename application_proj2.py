@@ -1,9 +1,6 @@
 from flask import Flask,render_template,request
 import os
 import shutil
-import numpy as np
-import sys
-import urllib.request
 import requests
 import xml.etree.ElementTree as ET
 from bokeh.io import output_file, show
@@ -12,6 +9,10 @@ from bokeh.models import GMapPlot, GMapOptions, ColumnDataSource, Circle, DataRa
 app_proj2 = Flask(__name__)
 
 app_proj2.vars = {}
+
+@app_proj2.route('/')
+def main():
+    return render_template('species_enter.html')
 
 @app_proj2.route('/index_page', methods=['GET','POST'])
 def index_page():
