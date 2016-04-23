@@ -18,18 +18,67 @@ def project():
     sites =[]
     AQIs = []
     AQI_colors = []
+    varis = {}
+    varis['species'] = 'NO2'
 
-    for child in root.findall(".//*[@SpeciesCode='NO2']/..[@Latitude]"):
-        x = child.get('Latitude')
-        latitudes.append(x)
-        x = child.get('SiteName')
-        sites.append(x)
-        x = child.get('Longitude')
-        longitudes.append(x)
+        # species='NO2','PM25', 'PM10', 'O3', 'SO2'
 
-    for child in root.findall(".//*[@SpeciesCode='NO2']"):
-        x = child.get('AirQualityIndex')
-        AQIs.append(x)
+    if varis['species'] == 'NO2':
+
+        for child in root.findall(".//*[@SpeciesCode='NO2']/..[@Latitude]"):
+            x = child.get('Latitude')
+            latitudes.append(x)
+            x = child.get('SiteName')
+            sites.append(x)
+            x = child.get('Longitude')
+            longitudes.append(x)
+
+        for child in root.findall(".//*[@SpeciesCode='NO2']"):
+            x = child.get('AirQualityIndex')
+            AQIs.append(x)
+
+        if varis['species'] == 'PM10':
+
+            for child in root.findall(".//*[@SpeciesCode='PM10']/..[@Latitude]"):
+                x = child.get('Latitude')
+                latitudes.append(x)
+                x = child.get('SiteName')
+                sites.append(x)
+                x = child.get('Longitude')
+                longitudes.append(x)
+
+            for child in root.findall(".//*[@SpeciesCode='PM10']"):
+                x = child.get('AirQualityIndex')
+                AQIs.append(x)
+
+        if varis['species'] == 'PM25':
+
+            for child in root.findall(".//*[@SpeciesCode='PM25']/..[@Latitude]"):
+                x = child.get('Latitude')
+                latitudes.append(x)
+                x = child.get('SiteName')
+                sites.append(x)
+                x = child.get('Longitude')
+                longitudes.append(x)
+
+            for child in root.findall(".//*[@SpeciesCode='PM25']"):
+                x = child.get('AirQualityIndex')
+                AQIs.append(x)
+
+        if varis['species'] == 'O3':
+
+            for child in root.findall(".//*[@SpeciesCode='O3']/..[@Latitude]"):
+                x = child.get('Latitude')
+                latitudes.append(x)
+                x = child.get('SiteName')
+                sites.append(x)
+                x = child.get('Longitude')
+                longitudes.append(x)
+
+            for child in root.findall(".//*[@SpeciesCode='O3']"):
+                x = child.get('AirQualityIndex')
+                AQIs.append(x)
+
 
 
 
@@ -42,11 +91,25 @@ def project():
         if AQI =='0':
             AQI_color = AQI.replace('0','grey')
         if AQI =='1':
-            AQI_color = AQI.replace('1','green')
+            AQI_color = AQI.replace('1','forestgreen')
         if AQI =='2':
-            AQI_color = AQI.replace('2','orange')
+            AQI_color = AQI.replace('2','lawngreen')
         if AQI =='3':
-            AQI_color = AQI.replace('3','red')
+            AQI_color = AQI.replace('3','gold')
+        if AQI =='4':
+            AQI_color = AQI.replace('4','darkorange')
+        if AQI =='5':
+            AQI_color = AQI.replace('5','orangered')
+        if AQI =='6':
+            AQI_color = AQI.replace('6','red')
+        if AQI =='7':
+            AQI_color = AQI.replace('7','magenta')
+        if AQI =='8':
+            AQI_color = AQI.replace('6','blueviolet')
+        if AQI =='9':
+            AQI_color = AQI.replace('9','blue')
+        if AQI =='10':
+            AQI_color = AQI.replace('10','black')
 
         AQI_colors.append(AQI_color)
 
@@ -60,7 +123,7 @@ def project():
     plot.add_glyph(source, circle)
 
     plot.add_tools(PanTool(), WheelZoomTool(), BoxSelectTool())
-    output_file("gmap_plot.html")
+    output_file('gmap_plot.html')
     show(plot)
 
 

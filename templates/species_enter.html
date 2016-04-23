@@ -1,0 +1,23 @@
+<!doctype html>
+<title>London Air Quality Index</title>
+<link rel=stylesheet type=text/css href='{{ url_for('static',filename='style_input.css')}}'>
+<div class=page>
+  <h1>London Air Quality Index</h1>
+  <div class=metanav>
+
+    <h4>
+      Select species (NO2, PM10, PM25, SO2 or O3).
+    </h4>
+
+    <form id='speciesform' method='post' action='index_page' >
+      <p>
+    Species: <input type='text' name='species_name' />
+      </p>
+      <p>
+    <input type='submit' value='Submit' />
+      </p>
+    </form>
+
+  </div>
+</div>
+</html>
