@@ -156,7 +156,7 @@ def index_page():
 
 
 if __name__ == "__main__":
-    app_proj2.run(debug=True)
+    app_proj2.run(port=33507)
 
 
 # path = /Users/priyarane/Documents/data_inc/London_AQI
