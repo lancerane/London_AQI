@@ -6,9 +6,9 @@ import xml.etree.ElementTree as ET
 from bokeh.io import output_file, show
 from bokeh.models import GMapPlot, GMapOptions, ColumnDataSource, Circle, DataRange1d, PanTool, WheelZoomTool, BoxSelectTool
 
-app_proj2 = Flask(__name__)
+app = Flask(__name__)
 
-app_proj2.vars = {}
+app.vars = {}
 
 @app_proj2.route('/', methods=['GET','POST'])
 def main():
@@ -18,7 +18,7 @@ def main():
 
     else:
         #request was a POST
-        app_proj2.vars['species'] = request.form['selected_species']
+        app.vars['species'] = request.form['selected_species']
 
         response = requests.get("http://api.erg.kcl.ac.uk/AirQuality/Hourly/MonitoringIndex/GroupName=London")
         root = ET.fromstring(response.content)
@@ -29,7 +29,7 @@ def main():
         AQIs = []
         AQI_colors = []
 
-        if app_proj2.vars['species'] == 'NO2':
+        if app.vars['species'] == 'NO2':
 
             for child in root.findall(".//*[@SpeciesCode='NO2']/..[@Latitude]"):
                 x = child.get('Latitude')
@@ -43,7 +43,7 @@ def main():
                 x = child.get('AirQualityIndex')
                 AQIs.append(x)
 
-        elif app_proj2.vars['species'] == 'PM10':
+        elif app.vars['species'] == 'PM10':
 
             for child in root.findall(".//*[@SpeciesCode='PM10']/..[@Latitude]"):
                 x = child.get('Latitude')
@@ -57,7 +57,7 @@ def main():
                 x = child.get('AirQualityIndex')
                 AQIs.append(x)
 
-        elif app_proj2.vars['species'] == 'PM25':
+        elif app.vars['species'] == 'PM25':
 
             for child in root.findall(".//*[@SpeciesCode='PM25']/..[@Latitude]"):
                 x = child.get('Latitude')
@@ -71,7 +71,7 @@ def main():
                 x = child.get('AirQualityIndex')
                 AQIs.append(x)
 
-        elif app_proj2.vars['species'] == 'O3':
+        elif app.vars['species'] == 'O3':
 
             for child in root.findall(".//*[@SpeciesCode='O3']/..[@Latitude]"):
                 x = child.get('Latitude')
@@ -85,7 +85,7 @@ def main():
                 x = child.get('AirQualityIndex')
                 AQIs.append(x)
 
-        elif app_proj2.vars['species'] == 'SO2':
+        elif app.vars['species'] == 'SO2':
 
             for child in root.findall(".//*[@SpeciesCode='SO2']/..[@Latitude]"):
                 x = child.get('Latitude')
@@ -153,7 +153,7 @@ def main():
 
 
 if __name__ == "__main__":
-    app_proj2.run(port=33507)
+    app.run(port=33507)
 
 
 # path = /Users/priyarane/Documents/data_inc/London_AQI
