@@ -1,0 +1,28 @@
+<!doctype html>
+<title>London AQI</title>
+<link rel=stylesheet type=text/css href='{{ url_for('static',filename='style_input.css')}}'>
+<div class=page>
+  <h1>London Air Quality Index</h1>
+
+  <div class=metanav>
+
+Select species.
+
+<h4>
+<form id='answerform' method='post' action='/' > <!-- action must match your next URL -->
+   <p>
+   <input type='radio' name='selected_species' value='NO2' /> NO2 <br />
+   <input type='radio' name='selected_species' value='PM10' /> PM10 <br />
+   <input type='radio' name='selected_species' value='PM25' /> PM25 <br />
+   <input type='radio' name='selected_species' value='SO2' /> SO2 <br />
+   <input type='radio' name='selected_species' value='O3' /> O3 <br />
+   </p>
+
+   <p>
+   <input type='submit' value='Load map' /> <!--the 'value' is the word that will appear on your button.-->
+   </p>
+</form>
+</h4>
+
+</div>
+</div>
