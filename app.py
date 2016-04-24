@@ -1,9 +1,8 @@
 from flask import Flask,render_template,request
 import os
-import shutil
 import requests
 import xml.etree.ElementTree as ET
-from bokeh.io import output_file, show
+from bokeh.io import output_file, show, save
 from bokeh.models import GMapPlot, GMapOptions, ColumnDataSource, Circle, DataRange1d, PanTool, WheelZoomTool, BoxSelectTool
 
 app = Flask(__name__)
@@ -143,13 +142,13 @@ def main():
 
         plot.add_tools(PanTool(), WheelZoomTool(), BoxSelectTool())
 
-        show(plot)
-        # output_file('gmap_plot.html')
-        # path ='/Users/priyarane/Documents/data_inc/London_AQI/templates'
-        # shutil.copy('gmap_plot.html',path)
+
+        output_file('templates/map.html')
+        save(plot)
 
 
-        return render_template('gmap_plot.html')
+
+        return render_template('map.html')
 
 
 if __name__ == "__main__":
