@@ -111,10 +111,10 @@ def main():
 
         else:
             return render_template('invalid_species.html')
+#lat=51.528308
 
-
-        map_options = GMapOptions(lat=51.528308, lng=-0.1817765, map_type="roadmap", zoom=9)
-        plot = GMapPlot(x_range=DataRange1d(), y_range=DataRange1d(), map_options=map_options, title="AQIs", toolbar_location="below")
+        map_options = GMapOptions(lat=51.4908308, lng=-0.1407765, map_type="roadmap", zoom=10)
+        plot = GMapPlot(x_range=DataRange1d(), y_range=DataRange1d(), map_options=map_options, plot_width=740, plot_height=650, title="AQIs", toolbar_location="below")
 
         for AQI in AQIs:
             if AQI =='0':
