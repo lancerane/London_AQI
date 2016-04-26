@@ -3,25 +3,24 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>London AQI</title>
-        <link rel=stylesheet type=text/css href='{{ url_for('static',filename='style_input_simple.css')}}'>
+        <title>Bokeh Plot</title>
 
 <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-0.11.1.min.css" type="text/css" />
 
 <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-0.11.1.min.js"></script>
-<!-- <script type="text/javascript"> -->
-    <!-- // Bokeh.set_log_level("info"); -->
+<script type="text/javascript">
+    // Bokeh.set_log_level("info");
 
     {{ script | safe }}
     </head>
     <body>
-      <h1>{{species}} air quality index</h1>
-      <h3>
-        Updated {{date}}
-      </h3>
+
+      <h4>
+        Select species (NO2, PM10, PM25, SO2 or O3).
+      </h4>
 
         <div class="plotdiv">
-
+          <h1>Header text</h1>
 
         {{ div | safe }}
 

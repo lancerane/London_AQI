@@ -3,7 +3,8 @@ import os
 import requests
 import xml.etree.ElementTree as ET
 from bokeh.io import output_file, show, save
-from bokeh.models import GMapPlot, GMapOptions, ColumnDataSource, Circle, DataRange1d, PanTool, WheelZoomTool, BoxSelectTool
+from bokeh.models import GMapPlot, GMapOptions, ColumnDataSource, Circle, DataRange1d, PanTool, HoverTool, WheelZoomTool, BoxSelectTool
+from bokeh.embed import components
 
 app = Flask(__name__)
 
@@ -37,6 +38,8 @@ def main():
                 sites.append(x)
                 x = child.get('Longitude')
                 longitudes.append(x)
+                x = child.get('BulletinDate')
+                app.vars['date'] = x
 
             for child in root.findall(".//*[@SpeciesCode='NO2']"):
                 x = child.get('AirQualityIndex')
@@ -51,6 +54,8 @@ def main():
                 sites.append(x)
                 x = child.get('Longitude')
                 longitudes.append(x)
+                x = child.get('BulletinDate')
+                app.vars['date'] = x
 
             for child in root.findall(".//*[@SpeciesCode='PM10']"):
                 x = child.get('AirQualityIndex')
@@ -65,6 +70,8 @@ def main():
                 sites.append(x)
                 x = child.get('Longitude')
                 longitudes.append(x)
+                x = child.get('BulletinDate')
+                app.vars['date'] = x
 
             for child in root.findall(".//*[@SpeciesCode='PM25']"):
                 x = child.get('AirQualityIndex')
@@ -79,6 +86,8 @@ def main():
                 sites.append(x)
                 x = child.get('Longitude')
                 longitudes.append(x)
+                x = child.get('BulletinDate')
+                app.vars['date'] = x
 
             for child in root.findall(".//*[@SpeciesCode='O3']"):
                 x = child.get('AirQualityIndex')
@@ -93,6 +102,8 @@ def main():
                 sites.append(x)
                 x = child.get('Longitude')
                 longitudes.append(x)
+                x = child.get('BulletinDate')
+                app.vars['date'] = x
 
             for child in root.findall(".//*[@SpeciesCode='SO2']"):
                 x = child.get('AirQualityIndex')
@@ -102,8 +113,8 @@ def main():
             return render_template('invalid_species.html')
 
 
-        map_options = GMapOptions(lat=51.528308, lng=-0.1817765, map_type="roadmap", zoom=10)
-        plot = GMapPlot(x_range=DataRange1d(), y_range=DataRange1d(), map_options=map_options, title="AQIs")
+        map_options = GMapOptions(lat=51.528308, lng=-0.1817765, map_type="roadmap", zoom=9)
+        plot = GMapPlot(x_range=DataRange1d(), y_range=DataRange1d(), map_options=map_options, title="AQIs", toolbar_location="below")
 
         for AQI in AQIs:
             if AQI =='0':
@@ -135,20 +146,55 @@ def main():
         data = dict(
         lat = latitudes,
         lon = longitudes,
-        color = AQI_colors))
+        color = AQI_colors,
+        sites = sites,
+        AQIs = AQIs))
 
-        circle = Circle(x = "lon", y = "lat", size=16, fill_color="color", fill_alpha=0.6, line_color=None)
+
+        circle = Circle(x = "lon", y = "lat", size=16, fill_color="color", fill_alpha=0.5, line_color=None)
         plot.add_glyph(source, circle)
 
-        plot.add_tools(PanTool(), WheelZoomTool(), BoxSelectTool())
 
+        plot.add_tools(PanTool(), WheelZoomTool(), BoxSelectTool(), HoverTool())
+
+
+        hover = plot.select(dict(type=HoverTool))
+
+        # hover.tooltips=[
+        #         ("Site", "@sites"),
+        #         ("AQI", "@AQIs"),
+        #         ]
+
+        hover.tooltips="""
+        <!DOCTYPE html>
+        <html lang="en">
+            <head>
+                <link rel=stylesheet type=text/css href='{{ url_for('static',filename='style_input_ht.css')}}'>
+
+        <div>
+            <div>
+                <span style="font-size: 17px;fill_color='red';fill_alpha=0.5;">@sites</span>
+
+            </div>
+            <div>
+                <span style="font-size: 15px;">AQI</span>
+                <span style="font-size: 15px;">@AQIs</span>
+            </div>
+        </div>
+        """
+
+
+        # hover = plot.select(dict(type=HoverTool))
+        # hover.tooltips = OrderedDict([
+        # ("Site", "@lat")])
+        script, div = components(plot)
 
         output_file('templates/map.html')
-        save(plot)
+        # save(plot)
 
 
 
-        return render_template('map.html')
+        return render_template('map.html', script=script, div=div, species=app.vars['species'], date=app.vars['date'])
 
 
 if __name__ == "__main__":
