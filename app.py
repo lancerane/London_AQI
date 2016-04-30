@@ -29,7 +29,7 @@ def main():
         AQIs = []
         AQI_colors = []
 
-        if app.vars['species'] == 'NO2':
+        if app.vars['species'] == 'nitrogen dioxide':
 
             for child in root.findall(".//*[@SpeciesCode='NO2']/..[@Latitude]"):
                 x = child.get('Latitude')
@@ -45,7 +45,8 @@ def main():
                 x = child.get('AirQualityIndex')
                 AQIs.append(x)
 
-        elif app.vars['species'] == 'PM10':
+        elif app.vars['species'] == 'PM10 particulate matter':
+            app.vars['species'] = 'PM10'
 
             for child in root.findall(".//*[@SpeciesCode='PM10']/..[@Latitude]"):
                 x = child.get('Latitude')
@@ -61,7 +62,8 @@ def main():
                 x = child.get('AirQualityIndex')
                 AQIs.append(x)
 
-        elif app.vars['species'] == 'PM25':
+        elif app.vars['species'] == 'PM25 particulate matter':
+            app.vars['species'] = 'PM25'
 
             for child in root.findall(".//*[@SpeciesCode='PM25']/..[@Latitude]"):
                 x = child.get('Latitude')
@@ -77,7 +79,7 @@ def main():
                 x = child.get('AirQualityIndex')
                 AQIs.append(x)
 
-        elif app.vars['species'] == 'O3':
+        elif app.vars['species'] == 'ozone':
 
             for child in root.findall(".//*[@SpeciesCode='O3']/..[@Latitude]"):
                 x = child.get('Latitude')
@@ -93,7 +95,7 @@ def main():
                 x = child.get('AirQualityIndex')
                 AQIs.append(x)
 
-        elif app.vars['species'] == 'SO2':
+        elif app.vars['species'] == 'sulphur dioxide':
 
             for child in root.findall(".//*[@SpeciesCode='SO2']/..[@Latitude]"):
                 x = child.get('Latitude')
@@ -151,7 +153,7 @@ def main():
         AQIs = AQIs))
 
 
-        circle = Circle(x = "lon", y = "lat", size=16, fill_color="color", fill_alpha=0.5, line_color=None)
+        circle = Circle(x = "lon", y = "lat", size=14, fill_color="color", fill_alpha=0.5, line_color=None)
         plot.add_glyph(source, circle)
 
 
@@ -173,12 +175,12 @@ def main():
 
         <div>
             <div>
-                <span style="font-size: 17px;fill_color='red';fill_alpha=0.5;">@sites</span>
+                <span style="font-size: 17px; color:black;">@sites</span>
 
             </div>
             <div>
-                <span style="font-size: 15px;">AQI</span>
-                <span style="font-size: 15px;">@AQIs</span>
+                <span style="font-size: 15px; color: black;">AQI</span>
+                <span style="font-size: 15px; color: black;">@AQIs</span>
             </div>
         </div>
         """

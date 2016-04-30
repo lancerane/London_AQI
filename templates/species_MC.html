@@ -1,28 +1,82 @@
 <!doctype html>
+<html>
+<head>
+
 <title>London AQI</title>
+</head>
+
+<link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
 <link rel=stylesheet type=text/css href='{{ url_for('static',filename='style_input_simple.css')}}'>
 <div class=page>
-  <h1>London air quality index</h1>
+  <style>
+  h1 {font-size: 2em;}
+  body { color: white; font-size: 16pt; background-image: url(http://wixphoto.com/wp-content/uploads/2012/06/cloud28.jpg); }
+
+  .button {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: orangered;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 24px;
+  font-family: "Inconsolata";
+  padding: 13px;
+  width: 175px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '»';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+  </style>
+    <body>
+  <h1>london air quality index</h1>
 
   <div class=metanav>
+<p>
+select species:
+</p>
 
-Select species
-
-<h4>
 <form id='answerform' method='post' action='/' > <!-- action must match your next URL -->
    <p>
-   <input type='radio' name='selected_species' value='NO2' /> NO2 <br />
-   <input type='radio' name='selected_species' value='PM10' /> PM10 <br />
-   <input type='radio' name='selected_species' value='PM25' /> PM25 <br />
-   <input type='radio' name='selected_species' value='SO2' /> SO2 <br />
-   <input type='radio' name='selected_species' value='O3' /> O3 <br />
+   <input type='radio' name='selected_species' value='nitrogen dioxide' /> nitrogen dioxide <br />
+   <input type='radio' name='selected_species' value='PM10 particulate matter' /> PM<sub>10</sub> particulate matter<br />
+   <input type='radio' name='selected_species' value='PM25 particulate matter' /> PM<sub>25</sub> particulate matter <br />
+   <input type='radio' name='selected_species' value='sulphur dioxide' /> sulphur dioxide <br />
+   <input type='radio' name='selected_species' value='ozone' /> ozone <br />
    </p>
 
    <p>
-   <input type='submit' value='Load map' /> <!--the 'value' is the word that will appear on your button.-->
+     <button class="button" style="vertical-align:middle"><span>load map </span></button>
+   <!-- <input type='submit' value='load map' /> <!-the 'value' is the word that will appear on your button.-->
    </p>
 </form>
-</h4>
 
 </div>
 </div>
+</body>
+  </html>
