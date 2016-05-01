@@ -23,6 +23,9 @@ def main():
         response = requests.get("http://api.erg.kcl.ac.uk/AirQuality/Hourly/MonitoringIndex/GroupName=London")
         root = ET.fromstring(response.content)
 
+        info_response = requests.get("http://api.erg.kcl.ac.uk/AirQuality/Information/Species")
+        info_root = ET.fromstring(info_response.content)
+
         latitudes = []
         longitudes =[]
         sites =[]
@@ -45,6 +48,11 @@ def main():
                 x = child.get('AirQualityIndex')
                 AQIs.append(x)
 
+            for child in info_root.findall(".//*[@SpeciesCode='NO2']"):
+
+                descr = child.get('Description')
+                healtheffect = child.get('HealthEffect')
+
         elif app.vars['species'] == 'PM10 particulate matter':
             app.vars['species'] = 'PM10'
 
@@ -61,6 +69,11 @@ def main():
             for child in root.findall(".//*[@SpeciesCode='PM10']"):
                 x = child.get('AirQualityIndex')
                 AQIs.append(x)
+
+            for child in info_root.findall(".//*[@SpeciesCode='PM10']"):
+
+                descr = child.get('Description')
+                healtheffect = child.get('HealthEffect')
 
         elif app.vars['species'] == 'PM25 particulate matter':
             app.vars['species'] = 'PM25'
@@ -79,6 +92,11 @@ def main():
                 x = child.get('AirQualityIndex')
                 AQIs.append(x)
 
+            for child in info_root.findall(".//*[@SpeciesCode='PM25']"):
+
+                descr = child.get('Description')
+                healtheffect = child.get('HealthEffect')
+
         elif app.vars['species'] == 'ozone':
 
             for child in root.findall(".//*[@SpeciesCode='O3']/..[@Latitude]"):
@@ -95,6 +113,11 @@ def main():
                 x = child.get('AirQualityIndex')
                 AQIs.append(x)
 
+            for child in info_root.findall(".//*[@SpeciesCode='O3']"):
+
+                descr = child.get('Description')
+                healtheffect = child.get('HealthEffect')
+
         elif app.vars['species'] == 'sulphur dioxide':
 
             for child in root.findall(".//*[@SpeciesCode='SO2']/..[@Latitude]"):
@@ -110,6 +133,11 @@ def main():
             for child in root.findall(".//*[@SpeciesCode='SO2']"):
                 x = child.get('AirQualityIndex')
                 AQIs.append(x)
+
+            for child in info_root.findall(".//*[@SpeciesCode='SO2']"):
+
+                descr = child.get('Description')
+                healtheffect = child.get('HealthEffect')
 
         else:
             return render_template('invalid_species.html')
@@ -196,7 +224,7 @@ def main():
 
 
 
-        return render_template('map.html', script=script, div=div, species=app.vars['species'], date=app.vars['date'])
+        return render_template('map.html', script=script, div=div, species=app.vars['species'], date=app.vars['date'], descr=descr, healtheffect=healtheffect)
 
 
 if __name__ == "__main__":
