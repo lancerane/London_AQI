@@ -3,7 +3,7 @@ import os
 import requests
 import xml.etree.ElementTree as ET
 from bokeh.io import output_file, show, save
-from bokeh.models import GMapPlot, GMapOptions, ColumnDataSource, Circle, DataRange1d, PanTool, HoverTool, WheelZoomTool, BoxSelectTool
+from bokeh.models import GMapPlot, GMapOptions, ColumnDataSource, Circle, DataRange1d, PanTool, WheelZoomTool, BoxSelectTool, HoverTool
 from bokeh.embed import components
 
 app = Flask(__name__)
@@ -139,12 +139,6 @@ def main():
                 descr = child.get('Description')
                 healtheffect = child.get('HealthEffect')
 
-        else:
-            return render_template('invalid_species.html')
-#lat=51.528308
-
-        map_options = GMapOptions(lat=51.4908308, lng=-0.1407765, map_type="roadmap", zoom=10)
-        plot = GMapPlot(x_range=DataRange1d(), y_range=DataRange1d(), map_options=map_options, plot_width=740, plot_height=650, title="AQIs", toolbar_location="below")
 
         for AQI in AQIs:
             if AQI =='0':
@@ -172,6 +166,11 @@ def main():
 
             AQI_colors.append(AQI_color)
 
+        map_options = GMapOptions(lat=51.4908308, lng=-0.1407765, map_type="roadmap", zoom=10)
+        plot = GMapPlot(x_range=DataRange1d(), y_range=DataRange1d(), map_options=map_options, plot_width=740, plot_height=650,  toolbar_location="below")
+        # plot.title.text= "AQIs"
+        plot.api_key="AIzaSyA7Adc9av0W2hSf72F3VwepL-MqQvs5Hes"
+        #
         source = ColumnDataSource(
         data = dict(
         lat = latitudes,
@@ -179,22 +178,19 @@ def main():
         color = AQI_colors,
         sites = sites,
         AQIs = AQIs))
-
-
+        #
+        #
         circle = Circle(x = "lon", y = "lat", size=14, fill_color="color", fill_alpha=0.5, line_color=None)
         plot.add_glyph(source, circle)
-
-
+        #
+        #
         plot.add_tools(PanTool(), WheelZoomTool(), BoxSelectTool(), HoverTool())
-
-
+        #
+        #
         hover = plot.select(dict(type=HoverTool))
-
-        # hover.tooltips=[
-        #         ("Site", "@sites"),
-        #         ("AQI", "@AQIs"),
-        #         ]
-
+        #
+        #
+        #
         hover.tooltips="""
         <!DOCTYPE html>
         <html lang="en">
@@ -213,22 +209,16 @@ def main():
         </div>
         """
 
-
-        # hover = plot.select(dict(type=HoverTool))
-        # hover.tooltips = OrderedDict([
-        # ("Site", "@lat")])
         script, div = components(plot)
 
         output_file('templates/map.html')
         # save(plot)
 
-
-
-        return render_template('map.html', script=script, div=div, species=app.vars['species'], date=app.vars['date'], descr=descr, healtheffect=healtheffect)
+        return render_template('map.html', script=script, div=div, species=app.vars['species'], date=app.vars['date'])#, descr=descr, healtheffect=healtheffect)
 
 
 if __name__ == "__main__":
     app.run(port=33507)
 
 
-# path = /Users/priyarane/Documents/data_inc/London_AQI
+# path = /Users/priyarane/Documents/data_inc/London_AQI 740/650
